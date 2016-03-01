@@ -1,9 +1,7 @@
 from django import forms
-from django.http import HttpResponse
+from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.forms.formsets import BaseFormSet
-
-from ajax_validation.utils import LazyEncoder
 
 def validate(request, *args, **kwargs):
     form_class = kwargs.pop('form_class')
@@ -51,6 +49,5 @@ def validate(request, *args, **kwargs):
             'valid': False or not final_errors,
             'errors': final_errors,
         }
-    json_serializer = LazyEncoder()
-    return HttpResponse(json_serializer.encode(data), mimetype='application/json')
+    return JsonResponse(data)
 validate = require_POST(validate)
