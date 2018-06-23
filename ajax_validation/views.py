@@ -24,7 +24,7 @@ def validate(request, *args, **kwargs):
             for f in form.forms:
                 for field in f.fields.keys():
                     formfields[f.add_prefix(field)] = f[field]
-                for field, error in f.errors.iteritems():
+                for field, error in f.errors.items():
                     errors[f.add_prefix(field)] = error
             if form.non_form_errors():
                 errors['__all__'] = form.non_form_errors()
@@ -35,10 +35,10 @@ def validate(request, *args, **kwargs):
         # if fields have been specified then restrict the error list
         if request.POST.getlist('fields'):
             fields = request.POST.getlist('fields') + ['__all__']
-            errors = dict([(key, val) for key, val in errors.iteritems() if key in fields])
+            errors = dict([(key, val) for key, val in errors.items() if key in fields])
 
         final_errors = {}
-        for key, val in errors.iteritems():
+        for key, val in errors.items():
             if '__all__' in key:
                 final_errors[key] = val
             elif not isinstance(formfields[key].field, forms.FileField):
